@@ -1,4 +1,3 @@
-const { json } = require('express')
 const express = require('express')
 const app = express()
 
@@ -72,6 +71,12 @@ app.post('/api/notes', (request, response) => {
     notes = notes.concat(note)
     response.json(note)
 })
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = 3001
 app.listen(PORT, () => {
