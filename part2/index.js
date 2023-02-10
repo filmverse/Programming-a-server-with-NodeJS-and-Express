@@ -26,6 +26,10 @@ let persons = [
     }
 ]
 
+app.get('/', (request, response) => {
+    response.send('<h1>Phonebook</h1>')
+})
+
 app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
@@ -62,7 +66,13 @@ app.post('/api/persons', (request, response) => {
     const body = request.body
     if (!body.name || !body.number) {
         return response.status(400).json({
-            error: 'person missing'
+            error: 'name or number is missing'
+        })
+    }
+    const foundPerson = persons.find(person => person.name === body.name)
+    if (foundPerson) {
+        return response.status(400).json({
+            error: 'name must be unique'
         })
     }
     const person = {
