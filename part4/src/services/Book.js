@@ -1,20 +1,20 @@
 import axios from "axios";
-const baseURL = '/api/persons'
+const baseUrl = '/api/persons'
 
 const getAll = () => {
-    return axios.get(baseURL)
+    return axios.get(baseUrl)
 }
 
 const create = (personObject) => {
-    return axios.post(baseURL, personObject)
+    return axios.post(baseUrl, personObject)
 }
 
 const update = (id, personObject) => {
-    return axios.put(`${baseURL}/${id}`, personObject)
+    return axios.put(`${baseUrl}/${id}`, personObject)
 }
 
 const remove = (id) => {
-    return axios.delete(`${baseURL}/${id}`)
+    return axios.delete(`${baseUrl}/${id}`)
 }
 
 const Book = { getAll, create, update, remove }
