@@ -6,6 +6,7 @@ const App = () => {
 
   const [ notes, setNotes ] = useState([])
   const [ newNote, setNewNote ] = useState("")
+  const [ showAll, setShowAll ] = useState(true)
 
   const hook = () => {
     axios.get('http://localhost:3001/notes').then(
@@ -34,9 +35,14 @@ const App = () => {
 
   const handleQuery = (handle) => (event) => { handle(event.target.value) }
 
+  console.log(showAll)
+
   return (
     <div>
       <h1>Notes</h1>
+      <button onClick={() => setShowAll(!showAll)}>
+        show {showAll ? 'important' : 'all'}
+      </button>
       <ul>
         {notes.map(note => <Note
           key={note.id}
