@@ -17,8 +17,6 @@ const App = () => {
   }
   useEffect(hook, [])
 
-  const handleQuery = (handle) => (event) => {handle(event.target.value)}
-
   const submitNote = (event) => {
     event.preventDefault()
     const addNote = {
@@ -28,16 +26,23 @@ const App = () => {
     }
     axios.post('http://localhost:3001/notes', addNote).then(
       note => {
-        setNotes(notes.concat(note))
+        setNotes(notes.concat(note.data))
         setNewNote("")
       }
     )
   }
 
+  const handleQuery = (handle) => (event) => { handle(event.target.value) }
+
   return (
     <div>
       <h1>Notes</h1>
-      {notes.map(note => <Note key={note.id} note={note} />)}
+      <ul>
+        {notes.map(note => <Note
+          key={note.id}
+          note={note}
+        />)}
+      </ul>
       <form onSubmit={submitNote}>
         <input value={newNote} onChange={handleQuery(setNewNote)} />
         <button type="submit">save</button>
