@@ -11,7 +11,6 @@ const App = () => {
   const hook = () => {
     axios.get('http://localhost:3001/notes').then(
       note => {
-        console.log(note.data)
         setNotes(note.data)
       }
     )
@@ -35,6 +34,10 @@ const App = () => {
 
   const handleQuery = (handle) => (event) => { handle(event.target.value) }
 
+  const noteToShow = showAll
+    ? notes
+    : notes.filter(note => note.important === true)
+
   console.log(showAll)
 
   return (
@@ -44,7 +47,7 @@ const App = () => {
         show {showAll ? 'important' : 'all'}
       </button>
       <ul>
-        {notes.map(note => <Note
+        {noteToShow.map(note => <Note
           key={note.id}
           note={note}
         />)}
