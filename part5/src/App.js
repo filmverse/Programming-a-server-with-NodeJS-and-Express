@@ -39,7 +39,21 @@ const App = () => {
     : notes.filter(note => note.important === true)
 
   const toggleImportanceOf = (id) => {
-    console.log(id)
+    const importantNote = notes.find(note => note.id === id)
+    const updateImportant = {...importantNote, important: !importantNote.important}
+    axios.put(`http://localhost:3001/notes/${id}`, updateImportant).then(
+      unote => {
+        setNotes(notes.map(note => note.id !== id ? note : unote.data))
+      }
+    )
+  }
+
+  const deleteNoteOf = (id) => {
+    axios.delete(`http://localhost:3001/notes/${id}`).then(
+      () => {
+        setNotes(notes.filter(note => note.id !== id))
+      }
+    )
   }
 
   return (
@@ -53,6 +67,7 @@ const App = () => {
           key={note.id}
           note={note}
           toggleImportance={() => toggleImportanceOf(note.id)}
+          deleteNote={() => deleteNoteOf(note.id)}
         />)}
       </ul>
       <form onSubmit={submitNote}>
