@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import noteService from "./services/Notes";
 import Note from "./components/Note";
 
 const App = () => {
@@ -9,7 +9,7 @@ const App = () => {
   const [ showAll, setShowAll ] = useState(true)
 
   const hook = () => {
-    axios.get('http://localhost:3001/notes').then(
+    noteService.getNotes().then(
       note => {
         setNotes(note.data)
       }
@@ -24,7 +24,7 @@ const App = () => {
       date: new Date().toISOString(),
       important: Math.random() < 0.5,
     }
-    axios.post('http://localhost:3001/notes', addNote).then(
+    noteService.sendNotes(addNote).then(
       note => {
         setNotes(notes.concat(note.data))
         setNewNote("")
@@ -41,7 +41,7 @@ const App = () => {
   const toggleImportanceOf = (id) => {
     const importantNote = notes.find(note => note.id === id)
     const updateImportant = {...importantNote, important: !importantNote.important}
-    axios.put(`http://localhost:3001/notes/${id}`, updateImportant).then(
+    noteService.noteImportance(id, updateImportant).then(
       unote => {
         setNotes(notes.map(note => note.id !== id ? note : unote.data))
       }
@@ -49,7 +49,7 @@ const App = () => {
   }
 
   const deleteNoteOf = (id) => {
-    axios.delete(`http://localhost:3001/notes/${id}`).then(
+    noteService.removeNote(id).then(
       () => {
         setNotes(notes.filter(note => note.id !== id))
       }
