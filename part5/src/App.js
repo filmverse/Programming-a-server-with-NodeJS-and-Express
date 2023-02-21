@@ -75,7 +75,7 @@ const App = () => {
         <button type="submit">save</button>
       </form>
       <p>Debug: {newNote}</p>
-      <p className="footer">Note app, Department of Computer Science, University of Helsinki 2023</p>
+      <p className="footer">Note App, Welcome To The Weird World.</p>
     </div>
   )
 }
