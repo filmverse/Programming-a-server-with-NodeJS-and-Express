@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "build:ui": "rm -rf build && cd ../part5 && npm run build && cp -r build ../part6",
+    "deploy:full": "npm run build:ui && git add . && git commit -m deployNotes && git push",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
