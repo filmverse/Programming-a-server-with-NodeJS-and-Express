@@ -1,47 +1,11 @@
+require('dotenv').config()
 const express = require('express')
-const mongoose = require('mongoose')
 const app = express()
+const Note = require('./models/note')
 const cors = require('cors')
 app.use(express.json())
 app.use(cors())
 app.use(express.static('build'))
-
-if (process.argv.length < 3) {
-    console.log('give password as argument')
-    process.exit(1)
-}
-
-const password = process.argv[2]
-
-const url = `mongodb+srv://vkassharma19492:${password}@cluster0.15oqqzt.mongodb.net/noteApp?retryWrites=true&w=majority`
-
-mongoose.set('strictQuery', false)
-mongoose.connect(url)
-
-const noteSchema = new mongoose.Schema({
-    content: String,
-    important: Boolean,
-})
-
-const Note = mongoose.model('Note', noteSchema)
-
-// let notes = [
-//     {
-//         id: 1,
-//         content: "HTML is easy",
-//         important: true
-//     },
-//     {
-//         id: 2,
-//         content: "Browser can execute only JavaScript",
-//         important: false
-//     },
-//     {
-//         id: 3,
-//         content: "GET and POST are the most important methods of HTTP protocol",
-//         important: true
-//     }
-// ]
 
 app.get('/', (request, response) => {
     response.send('<h1>Hello World!</h1>')
@@ -92,7 +56,7 @@ app.delete('/api/notes/:id', (request, response) => {
     response.status(204).end()
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on part ${PORT}`)
 })
